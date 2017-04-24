@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import edu.iis.mto.time.Order;
 import edu.iis.mto.time.OrderExpiredException;
+import junit.framework.Assert;
 
 
 public class OrderTest {
@@ -20,6 +21,14 @@ public class OrderTest {
         Order order = new Order();
         order.submit();
         LocalDate date = new LocalDate(DateTime.now().plusDays(2));
+        DateTimeUtils.setCurrentMillisFixed(date.toDateTimeAtCurrentTime().getMillis());
+        order.confirm();
+    }
+    @Test
+    public void testOrderNotExpired() {
+        Order order = new Order();
+        order.submit();
+        LocalDate date = new LocalDate(DateTime.now().plusDays(1));
         DateTimeUtils.setCurrentMillisFixed(date.toDateTimeAtCurrentTime().getMillis());
         order.confirm();
     }
